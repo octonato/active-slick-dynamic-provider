@@ -15,7 +15,7 @@ import io.strongtyped.active.slick._
 
 trait ConfiguredProfileProvider extends JdbcProfileProvider {
 
-  val config:String = "testdb_PostgreSQL"
+  val config:String = "testdb_H2"
   val dc = DatabaseConfig.forConfig[JdbcProfile](config)
   
   type JP = JdbcProfile
