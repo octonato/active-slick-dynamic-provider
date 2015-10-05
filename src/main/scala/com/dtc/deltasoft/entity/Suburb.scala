@@ -5,8 +5,9 @@ import io.strongtyped.active.slick._
 import io.strongtyped.active.slick.Lens._
 
 trait SuburbProfile {
+  this: DriverComponent =>
 
-  object SuburbRepo extends EntityActions with ConfiguredProfileProvider {
+  object SuburbRepo extends EntityActions with ConfigurableProfileProvider {
 
     import jdbcProfile.api._
 

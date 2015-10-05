@@ -4,7 +4,9 @@ import org.junit.runner.RunWith
 import org.scalatest.FunSpec
 import org.scalatest.Matchers
 import org.scalatest.junit.JUnitRunner
+import slick.driver.{H2Driver, JdbcProfile}
 import scala.concurrent.ExecutionContext.Implicits.global
+import slick.jdbc.JdbcBackend.Database
 
 /**
  * Unit test suite for the [[Suburb]] entity.
@@ -13,14 +15,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @RunWith(classOf[JUnitRunner])
 class SuburbSpec extends FunSpec with Matchers {
 
-  val dal = new ConfiguredProfileProvider with SuburbProfile
-  import dal.jdbcProfile.api._
+  val dal = new Cake(H2Driver, Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver"))
+
+  import dal.driver.api._
   import dal._
 
   describe("A Suburb entity") {
     describe("should support schema updates including") {
       it("table creation") {
-//        dropExistingTables(SuburbRepo.tableQuery)
+        //        dropExistingTables(SuburbRepo.tableQuery)
         dal.run(SuburbRepo.createSchema)
       }
     }
@@ -31,4 +34,9 @@ class SuburbSpec extends FunSpec with Matchers {
       }
     }
   }
+}
+
+class Cake[D <: JdbcProfile](val driver: D, val db: Database) extends SuburbProfile with DbRunner with DriverComponent {
+
+  type DriverType = D
 }
