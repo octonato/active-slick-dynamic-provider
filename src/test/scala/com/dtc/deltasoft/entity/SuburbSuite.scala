@@ -15,7 +15,7 @@ import slick.jdbc.JdbcBackend.Database
 @RunWith(classOf[JUnitRunner])
 class SuburbSpec extends FunSpec with Matchers {
 
-  val dal = new Cake(H2Driver, Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver"))
+  val dal = new DAL(H2Driver, Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver"))
 
   import dal.driver.api._
   import dal._
@@ -36,7 +36,7 @@ class SuburbSpec extends FunSpec with Matchers {
   }
 }
 
-class Cake[D <: JdbcProfile](val driver: D, val db: Database) extends SuburbProfile with DbRunner with DriverComponent {
+class DAL[D <: JdbcProfile](val driver: D, val db: Database) extends SuburbProfile with DbRunner with DriverComponent {
 
   type DriverType = D
 }
